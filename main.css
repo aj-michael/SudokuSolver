@@ -1,0 +1,27 @@
+body {
+    background-image:url('back.png');
+}
+
+.header, .footer {
+    display: block;
+    width: 100%;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.heading {
+    font-size: 40px;
+    font-family: Georgia;
+    font-variant: small-caps;
+    text-transform: none;
+    font-weight: 100;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+.centered {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
