@@ -2,7 +2,7 @@ body {
     background-image:url('back.png');
 }
 
-.header, .footer {
+.header {
     display: block;
     width: 100%;
     max-width: 1000px;
@@ -20,8 +20,98 @@ body {
     text-align: center;
 }
 
+.footer {
+    position: fixed;
+    bottom: 0px;
+    height: 50px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .centered {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
+}
+
+#grid {
+    width: 474px;
+    height: 474px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #000000;
+    background-color: #D3D3D3;
+}
+
+#grid div {
+    width: 156px;
+    height: 156px;
+    float: left;
+    border: 1px solid #000000;
+}
+
+#grid span {
+    font-size: 250%;
+    width: 50px;
+    height: 50px;
+    float: left;
+    display: block;
+    text-align: center;
+    border: 1px solid #000000;
+}
+
+#grid span:hover {
+    background-color: #98FB98;
+}
+
+#grid input {
+    background-color: transparent;
+    border: 0;
+    color: transparent;
+    font-size: 110%;
+    text-shadow: 0 0 0 #000;
+    font-family: Serif;
+    text-align: center;
+    width: 50px;
+    height: 48px;
+}
+
+#grid input:active {
+    background-color: #FFA500;
+}
+
+#grid input:focus {
+    background-color: #FFA500;
+}
+
+#buttonContainer {
+    width: 100%;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    text-align: center;
+}
+
+#submit {
+    font-family: Serif;
+    width: 100px;
+    height: 40px;
+    border: 2px solid #000000;
+    border-radius: 25px;
+    margin: 0;
+    padding: 0;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #D3D3D3;
+    color: #000000;
+}
+
+#submit:hover {
+    background-color: #98Fb98;
+}
+
+#submit:active {
+    background-color: #FFA500;
 }
