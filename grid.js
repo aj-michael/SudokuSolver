@@ -26,7 +26,9 @@ window.onload = function () {
 
 function clearField(e,input) {
     var keycode = e.which || e.keyCode;
-    if (keycode == 8 || keycode == 46 || (48 < keycode && keycode < 58)) {
+    if (e.shiftKey) {
+        e.preventDefault();
+    } else if (keycode == 8 || keycode == 46 || (48 < keycode && keycode < 58)) {
         input.value = "";
     } else if (36 < keycode && keycode < 41) {
         var w,x,y,z;
