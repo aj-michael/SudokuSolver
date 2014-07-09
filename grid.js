@@ -7,10 +7,13 @@ window.onload = function () {
     console.log(result.resultType);
 };
 
-function clearField(input) {
-    if (input.value=="?") {
+function clearField(e,input) {
+    var keycode = e.which || e.keyCode;
+    console.log(keycode);
+    if (keycode == 8 || keycode == 46 || (48 < keycode && keycode < 58)) {
         input.value = "";
+    } else {
+        e.preventDefault();
     }
-    input.value = "";
 }
 
