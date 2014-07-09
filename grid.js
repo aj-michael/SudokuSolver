@@ -6,3 +6,11 @@ window.onload = function () {
     console.log(result.singleNodeValue);
     console.log(result.resultType);
 };
+
+function clearField(input) {
+    if (input.value=="?") {
+        input.value = "";
+    }
+    input.value = "";
+}
+
