@@ -82,7 +82,7 @@ function checkRow([w,x,y,z]) {
     for (a = 0; a < 3; a++) {
         for (b = 0; b < 3; b++) {
             var val = cells[w][a][y][b][0].value;
-            if (nums[val] == 1 && val != "") {
+            if (a != x && nums[val] == 1 && val != "") {
                 for (x = 0; x < 3; x++) {
                     for (z = 0; z < 3; z++) {
                         cells[w][x][y][z][1] = true;
@@ -106,7 +106,7 @@ function checkCol([w,x,y,z]) {
     for (a = 0; a < 3; a++) {
         for (b = 0; b < 3; b++) {
             var val = cells[a][x][b][z][0].value;
-            if (nums[val] == 1 && val != "") {
+            if (a != w && nums[val] == 1 && val != "") {
                 for (w = 0; w < 3; w++) {
                     for (y = 0; y < 3; y++) {
                         cells[w][x][y][z][2] = true;
