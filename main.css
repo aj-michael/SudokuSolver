@@ -61,10 +61,6 @@ body {
     border: 1px solid #000000;
 }
 
-#grid span:hover {
-    background-color: #98FB98;
-}
-
 #grid input {
     background-color: transparent;
     border: 0;
@@ -77,12 +73,16 @@ body {
     height: 48px;
 }
 
+#grid input:hover {
+    background-color: #98FB98 !important;
+}
+
 #grid input:active {
-    background-color: #FFA500;
+    background-color: #FFA500 !important;
 }
 
 #grid input:focus {
-    background-color: #FFA500;
+    background-color: #FFA500 !important;
 }
 
 #buttonContainer {

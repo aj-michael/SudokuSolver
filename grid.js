@@ -13,10 +13,13 @@ window.onload = function () {
             for (inrow = 0; inrow < 3; inrow++) {
                 cells[outrow][outcol][inrow] = new Array();
                 for (incol = 0; incol < 3; incol++) {
+                    cells[outrow][outcol][inrow][incol] = new Array();
                     var cell = r.iterateNext();
                     cell.value = "";
-//                    cell.conflict = [false, false, false];  // Row, Col, Box
-                    cells[outrow][outcol][inrow][incol] = cell;
+                    cells[outrow][outcol][inrow][incol][0] = cell;
+                    cells[outrow][outcol][inrow][incol][1] = false;
+                    cells[outrow][outcol][inrow][incol][2] = false;
+                    cells[outrow][outcol][inrow][incol][3] = false;
                     count = count + 1;
                 }
             }
@@ -35,13 +38,13 @@ function clearField(e,input) {
         var w,x,y,z;
         [w,x,y,z] = getCoordinates(input);
         if (keycode == 37) {
-            cells[w][ಠ_ಠ(x-!z,3)][y][ಠ_ಠ(z-1,3)].focus();
+            cells[w][ಠ_ಠ(x-!z,3)][y][ಠ_ಠ(z-1,3)][0].focus();
         } else if (keycode == 38) {
-            cells[ಠ_ಠ(w-!y,3)][x][ಠ_ಠ(y-1,3)][z].focus();
+            cells[ಠ_ಠ(w-!y,3)][x][ಠ_ಠ(y-1,3)][z][0].focus();
         } else if (keycode == 39) {
-            cells[w][(x+π(z,2))%3][y][(z+1)%3].focus();
+            cells[w][(x+π(z,2))%3][y][(z+1)%3][0].focus();
         } else if (keycode == 40) {
-            cells[(w+π(y,2))%3][x][(y+1)%3][z].focus();
+            cells[(w+π(y,2))%3][x][(y+1)%3][z][0].focus();
         }
     } else {
         e.preventDefault();
@@ -53,79 +56,110 @@ function checkValid(input) {
     checkRow(coords);
     checkCol(coords);
     checkBox(coords);
-    //checkRowConflicts(coords);
-    //checkColConflicts(coords);
-    //checkBoxConflicts(coords);
+    paint();
+}
+
+function paint() {
+    var w,x,y,z;
+    for (w = 0; w < 3; w++) {
+        for (x = 0; x < 3; x++) {
+            for (y = 0; y < 3; y++) {
+                for (z = 0; z < 3; z++) {
+                    var temp = cells[w][x][y][z];
+                    if(temp[1] || temp[2] || temp[3]) {
+                        cells[w][x][y][z][0].style.backgroundColor = "#CD9B9B";
+                    } else {
+                        cells[w][x][y][z][0].style.backgroundColor = "#D3D3D3";
+                    }
+                }
+            }
+        }
+    }
 }
 
 function checkRow([w,x,y,z]) {
-    var val = cells[w][x][y][z].value;
-    if (val == "") return;
+    var nums = [];
     for (a = 0; a < 3; a++) {
         for (b = 0; b < 3; b++) {
-            if ((a != x || b != z) && cells[w][a][y][b].value == val) {
+            var val = cells[w][a][y][b][0].value;
+            if (nums[val] == 1 && val != "") {
                 for (x = 0; x < 3; x++) {
                     for (z = 0; z < 3; z++) {
-                        cells[w][x][y][z].style.backgroundColor = "#CD9B9B";
-                       // cells[w][x][y][z].conflicts[0] = true;
+                        cells[w][x][y][z][1] = true;
                     }
                 }
                 return;
+            } else {
+                nums[val] = 1;
             }
+        }
+    }
+    for (x = 0; x < 3; x++) {
+        for (z = 0; z < 3; z++) {
+            cells[w][x][y][z][1] = false;
         }
     }
 }
 
 function checkCol([w,x,y,z]) {
-    var val = cells[w][x][y][z].value;
-    if (val == "") return;
+    var nums = []; 
     for (a = 0; a < 3; a++) {
         for (b = 0; b < 3; b++) {
-            if ((a != w || b != y) && cells[a][x][b][z].value == val) {
+            var val = cells[a][x][b][z][0].value;
+            if (nums[val] == 1 && val != "") {
                 for (w = 0; w < 3; w++) {
                     for (y = 0; y < 3; y++) {
-                        cells[w][x][y][z].style.backgroundColor = "#CD9B9B";
-                        //cells[w][x][y][z].conflicts[1] = true;
+                        cells[w][x][y][z][2] = true;
                     }
                 }
                 return;
+            } else {
+                nums[val] = 1;
             }
+        }
+    }
+    for (w = 0; w < 3; w++) {
+        for (y = 0; y < 3; y++) {
+            cells[w][x][y][z][2] = false;
         }
     }
 }
 
 function checkBox([w,x,y,z]) {
-    var val = cells[w][x][y][z].value;
-    if (val == "") return;
+    var nums = [];
     for (a = 0; a < 3; a++) {
         for (b = 0; b < 3; b++) {
-            if ((a != y || b != z) && cells[w][x][a][b].value == val) {
+            var val = cells[w][x][a][b][0].value;
+            if (nums[val] == 1 && val != "") {    
                 for (y = 0; y < 3; y++) {
                     for (z = 0; z < 3; z++) {
-                        cells[w][x][y][z].style.backgroundColor = "#CD9B9B";
-                        //cells[w][x][y][z].conflicts[2] = true;
+                        cells[w][x][y][z][3] = true;
                     }
                 }
                 return;
+            } else {
+                nums[val] = 1;
             }
         }
     }
-
-
+    for (y = 0; y < 3; y++) {
+        for (z = 0; z < 3; z++) {
+            cells[w][x][y][z][3] = false;
+        }
+    }
 }
 
 function getCoordinates(input) {
     var w,x,y,z;
     for (var i = 0; i < 81; i++) {
         w=π(i,27);x=π(i,9)%3;y=π(i,3)%3;z=i%3;
-        if (cells[w][x][y][z] == input) {
+        if (cells[w][x][y][z][0] == input) {
             break;
         }
     }
     return [w,x,y,z];
 }
 
-funct
 
 function π(x,y) {
     return x/y|0;
