@@ -1,4 +1,5 @@
 var cells;
+var Œ;
 
 window.onload = function () {
     var count = 1;
@@ -6,6 +7,7 @@ window.onload = function () {
     var xp = "//input[@maxlength='1']";
     var r = document.evaluate(xp,document,null,XPathResult.ORDERED_NODE_ITERATOR_TYPE,null);
     cells = new Array();
+    Œ = new Array(); 
     for (outrow = 0; outrow < 3; outrow++) {
         cells[outrow] = new Array();
         for (outcol = 0; outcol < 3; outcol++) {
@@ -79,10 +81,11 @@ function paint() {
 
 function checkRow([w,x,y,z]) {
     var nums = [];
+    var a, b;
     for (a = 0; a < 3; a++) {
         for (b = 0; b < 3; b++) {
             var val = cells[w][a][y][b][0].value;
-            if (a != x && nums[val] == 1 && val != "") {
+            if (a > nums[val] > 0 && val != "") {
                 for (x = 0; x < 3; x++) {
                     for (z = 0; z < 3; z++) {
                         cells[w][x][y][z][1] = true;
@@ -90,7 +93,7 @@ function checkRow([w,x,y,z]) {
                 }
                 return;
             } else {
-                nums[val] = 1;
+                nums[val] = a;
             }
         }
     }
@@ -103,10 +106,11 @@ function checkRow([w,x,y,z]) {
 
 function checkCol([w,x,y,z]) {
     var nums = []; 
+    var a, b;
     for (a = 0; a < 3; a++) {
         for (b = 0; b < 3; b++) {
             var val = cells[a][x][b][z][0].value;
-            if (a != w && nums[val] == 1 && val != "") {
+            if (a > nums[val] > 0 && val != "") {
                 for (w = 0; w < 3; w++) {
                     for (y = 0; y < 3; y++) {
                         cells[w][x][y][z][2] = true;
@@ -114,7 +118,7 @@ function checkCol([w,x,y,z]) {
                 }
                 return;
             } else {
-                nums[val] = 1;
+                nums[val] = a;
             }
         }
     }
@@ -127,6 +131,7 @@ function checkCol([w,x,y,z]) {
 
 function checkBox([w,x,y,z]) {
     var nums = [];
+    var a, b;
     for (a = 0; a < 3; a++) {
         for (b = 0; b < 3; b++) {
             var val = cells[w][x][a][b][0].value;
@@ -167,4 +172,26 @@ function π(x,y) {
 
 function ಠ_ಠ(x,y) {
     return ((x%y)+y)%y;
+}
+
+function solve() {
+    console.log("Let's get down to business");
+}
+
+function printIt() {
+    var outrow, outcol, inrow, incol;
+    for (outrow = 0; outrow < 3; outrow++) {
+        for (inrow = 0; inrow < 3; inrow++) {
+            var s = "|";
+            for (outcol = 0; outcol < 3; outcol++) {
+                for (incol = 0; incol < 3; incol++) {
+                    var v = cells[outrow][outcol][inrow][incol][0].value;
+                    if (v == "") v = "-";
+                    s = s + v;
+                }
+                s = s + "|";
+            }
+            console.log(s);
+        }
+    }
 }
