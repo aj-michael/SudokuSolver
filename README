@@ -1,3 +1,5 @@
+UPDATE: I believe the solver is now in a working state. It will warn you (with background colors) if you attempt to enter a clearly unsolvable puzzle, but if you attempt to solve it anyways it will crash your browser. If the puzzle has multiple solutions, only one will be displayed.
+
 Hey there. This is a project I'm working on that solves Sudoku puzzles.
 
 I am just starting the project now, so don't expect anything to be functional.
