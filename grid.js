@@ -29,7 +29,6 @@ function initialize_() {
             }
         }
     }        
-    console.log("Finished initializing _");
 }
 
 function clearField(e,input) {
@@ -179,14 +178,10 @@ function ಠ_ಠ(x,y) {
 
 function solve() {
     initialize$$();
-    if (backtrack()) {
-        console.log("Found solution");
-    } else {
-        console.log("Did not find solution");
-    }
+    solver();
 }
 
-function backtrack() {
+function solver() {
     var col = $$.right;
     if (col == $$) {
         return true;
@@ -199,21 +194,20 @@ function backtrack() {
         for (var rnode = cnode.right; rnode != cnode; rnode = rnode.right) {
             remove(rnode.head);
         }
-        if (backtrack()==true) {
+        if (solver()==true) {
             var w = cnode.row/243|0;
             var x = (cnode.row/81|0)%3;
             var y = (cnode.row/27|0)%3;
             var z = (cnode.row/9 |0)%3;
             var val = cnode.row % 9 + 1;
-            console.log("Include: (" + w + "," + x + "," + y + "," + z + "," + val + ")");
             _[w][x][y][z][0].value = val;
             return true;
         }
         for (var rnode = cnode.left; rnode != cnode; rnode = rnode.left) {
-            putback(rnode.head);
+            reinstate(rnode.head);
         }
     }
-    putback(col);
+    reinstate(col);
     return false;
 }
 
@@ -228,7 +222,7 @@ function remove(col) {
     }
 }
 
-function putback(col) {
+function reinstate(col) {
     for (var cnode = col.up; cnode != col; cnode = cnode.up) {
         for (var rnode = cnode.left; rnode != cnode; rnode = rnode.left) {
             rnode.down.up = rnode;
@@ -267,7 +261,6 @@ function initialize$() {
             }
         }
     }
-    console.log("Finished initializing $");
 }
 
 function initialize$$() {
@@ -311,7 +304,24 @@ function initialize$$() {
         cols[c][0]['left'] = cols[((c-1)%n+n)%n][0];
         cols[c][0]['right'] = cols[(c+1)%n][0];
     }
-    console.log("Finished initializing $$");
+    for (var w = 0; w < 3; w++) {
+        for (var x = 0; x < 3; x++) {
+            for (var y = 0; y < 3; y++) {
+                for (var z = 0; z < 3; z++) {
+                    var val = _[w][x][y][z][0].value;
+                    if (val != "") {
+                        val = parseInt(val);
+                        var r = (27*w+9*x+3*y+z)*9 + val - 1;
+                        var startnode = rows[r][0];
+                        for (var rnode = startnode.right; rnode != startnode; rnode = rnode.right) {
+                            remove(rnode.head);
+                        }   
+                        remove(rnode.head);
+                    }
+                }
+            }
+        }
+    }
 }
 
 function printIt() {
@@ -327,7 +337,6 @@ function printIt() {
                 }
                 s = s + "|";
             }
-            console.log(s);
         }
     }
 }
