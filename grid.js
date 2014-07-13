@@ -2,7 +2,7 @@ var _,$,$$;
 
 window.onload = function () {
     initialize_();
-
+    initialize$();
 };
 
 
@@ -29,6 +29,7 @@ function initialize_() {
             }
         }
     }        
+    console.log("Finished initializing _");
 }
 
 function clearField(e,input) {
@@ -177,39 +178,140 @@ function ಠ_ಠ(x,y) {
 }
 
 function solve() {
-    console.log("Let's get down to business");
-    initialize$();
-
-
+    initialize$$();
+    if (backtrack()) {
+        console.log("Found solution");
+    } else {
+        console.log("Did not find solution");
+    }
 }
 
-var $$;     // row validity
+function backtrack() {
+    var col = $$.right;
+    if (col == $$) {
+        return true;
+    }
+    if (col.down == col) {
+        return false;
+    }
+    remove(col);
+    for (var cnode = col.down; cnode != col; cnode = cnode.down) {
+        for (var rnode = cnode.right; rnode != cnode; rnode = rnode.right) {
+            remove(rnode.head);
+        }
+        if (backtrack()==true) {
+            var w = cnode.row/243|0;
+            var x = (cnode.row/81|0)%3;
+            var y = (cnode.row/27|0)%3;
+            var z = (cnode.row/9 |0)%3;
+            var val = cnode.row % 9 + 1;
+            console.log("Include: (" + w + "," + x + "," + y + "," + z + "," + val + ")");
+            _[w][x][y][z][0].value = val;
+            return true;
+        }
+        for (var rnode = cnode.left; rnode != cnode; rnode = rnode.left) {
+            putback(rnode.head);
+        }
+    }
+    putback(col);
+    return false;
+}
+
+function remove(col) {
+    col.left.right = col.right;
+    col.right.left = col.left;
+    for (var cnode = col.down; cnode != col; cnode = cnode.down) {    
+        for (var rnode = cnode.right; rnode != cnode; rnode = rnode.right) {
+            rnode.up.down = rnode.down;
+            rnode.down.up = rnode.up;
+        }
+    }
+}
+
+function putback(col) {
+    for (var cnode = col.up; cnode != col; cnode = cnode.up) {
+        for (var rnode = cnode.left; rnode != cnode; rnode = rnode.left) {
+            rnode.down.up = rnode;
+            rnode.up.down = rnode;
+        }
+    }
+    col.right.left = col;
+    col.left.right = col
+}
 
 function initialize$() {
     $ = new Array(); 
-    $$ = new Array();
+    var r = 0;
     for (var w = 0; w < 3; w++) {
         for (var x = 0; x < 3; x++) {
             for (var y = 0; y < 3; y++) {
-                for (var z = 0; z < 3; z++) {                    
-                    for (var r = 0; r < 9; r++) {
-                        $.push(arr);
-                    }
-                    var val = _[w][x][y][z][0].value;
-                    console.log(val);
-                    var arr = [];
-                    for (var c = 729; c--;) arr.push(0);
-                    if (val == "") {
-                        for (var r = 0; r < 9; r++) {
-                            $.push(arr);
+                for (var z = 0; z < 3; z++) {
+                    for (var val = 0; val < 9; val++) {
+                        var row = [];
+                        for (var i = 0; i < 81; i++) { // value in cell
+                            row[i] = i == 27*w+9*x+3*y+z;
                         }
-                    } else {
-                        $.push(arr);
+                        for (var i = 0; i < 81; i++) {
+                            row[i+81] = (val == i%9 && 3*w+y == π(i,9));
+                        }
+                        for (var i = 0; i < 81; i++) { // value in col
+                            row[i+162] = (val == i%9 && 3*x+z == π(i,9));
+                        }
+                        for (var i = 0; i < 81; i++) { // value in box
+                            row[i+243] = (val == i%9 && 3*w+x == π(i,9));
+                        }
+                        $[r] = row;
+                        r++;
                     }
                 }
             }
         }
     }
+    console.log("Finished initializing $");
+}
+
+function initialize$$() {
+    var rows = [];
+    var cols = [];
+    for (var i = 0; i < 324; i++) {
+        cols[i] = [{col: i, header: "IM A HEADER"}];
+    }
+    for (var r = 0; r < 729; r++) {
+        rows[r] = [];
+        for (var c = 0; c < 324; c++) {
+            if ($[r][c] == true) {
+                var node = {
+                    row: r,
+                    col: c,
+                    head: cols[c][0]
+                };
+                rows[r].push(node);
+                cols[c].push(node);
+            }
+        }
+    }
+    for (var c = 0, ncols = cols.length; c < ncols; c++) { 
+        var nrows = cols[c].length;
+        for (var r = 0; r < nrows; r++) {
+            cols[c][r]['up'] = cols[c][((r-1)%nrows+nrows)%nrows];
+            cols[c][r]['down'] = cols[c][(r+1)%nrows];
+        }
+    }
+    for (var r = 0; r < rows.length; r++) {
+        var ncols = rows[r].length;
+        for (var c = 0; c < ncols; c++) {
+            rows[r][c]['left'] = rows[r][((c-1)%ncols+ncols)%ncols];
+            rows[r][c]['right'] = rows[r][(c+1)%ncols];
+        }
+    }
+    $$ = {row: 0, col: -1};
+    cols.push([$$]);
+    var n = cols.length;
+    for (var c = 0; c < n; c++) {
+        cols[c][0]['left'] = cols[((c-1)%n+n)%n][0];
+        cols[c][0]['right'] = cols[(c+1)%n][0];
+    }
+    console.log("Finished initializing $$");
 }
 
 function printIt() {
