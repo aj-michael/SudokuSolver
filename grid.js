@@ -63,6 +63,24 @@ function checkValid(input) {
     paint();
 }
 
+function checkAll() {
+    for (var w = 0; w < 3; w++) {
+        for (var x = 0; x < 3; x++) {
+            for (var y = 0; y < 3; y++) {
+                for (var z = 0; z < 3; z++) {
+                    _[w][x][y][z][1] = false;
+                    _[w][x][y][z][2] = false;
+                    _[w][x][y][z][3] = false;
+                }
+            }
+        }
+    }
+    checkAllRows();
+    checkAllCols();
+    checkAllBoxes();
+    paint();
+}
+
 function paint() {
     var w,x,y,z;
     for (w = 0; w < 3; w++) {
@@ -102,6 +120,72 @@ function checkRow([w,x,y,z]) {
     for (x = 0; x < 3; x++) {
         for (z = 0; z < 3; z++) {
             _[w][x][y][z][1] = false;
+        }
+    }
+}
+
+function checkAllRows() {
+    for (var w = 0; w < 3; w++) {
+        for (var y = 0; y < 3; y++) {
+            var nums = [];
+            for (var x = 0; x < 3; x++) {
+                for (var z = 0; z < 3; z++) {
+                    var val = _[w][x][y][z][0].value;
+                    if (x > nums[val] > 0 && val != "") {
+                        for (x = 0; x < 3; x++) {
+                            for (z = 0; z < 3; z++) {
+                                _[w][x][y][z][1] = true;
+                            }
+                        }
+                    } else {
+                        nums[val] = x;
+                    }
+                }
+            }
+        }
+    }
+}
+
+function checkAllCols() {
+    for (var x = 0; x < 3; x++) {
+        for (var z = 0; z < 3; z++) {
+            var nums = [];
+            for (var w = 0; w < 3; w++) {
+                for (var y = 0; y < 3; y++) {
+                    var val = _[w][x][y][z][0].value;
+                    if (w > nums[val] > 0 && val != "") {
+                        for (w = 0; w < 3; w++) {
+                            for (y = 0; y < 3; y++) {
+                                _[w][x][y][z][2] = true;
+                            }
+                        }
+                    } else {
+                        nums[val] = w;
+                    }
+                }
+            }
+        }
+    }
+}
+
+function checkAllBoxes() {
+    for (var w = 0; w < 3; w++) {
+        for (var x = 0; x < 3; x++) {
+            var nums = [];
+            for (var y = 0; y < 3; y++) {
+                for (var z = 0; z < 3; z++) {
+                    var val = _[w][x][y][z][0].value;
+                    if (nums[val] > 0 && val != "") {
+                        for (y = 0; y < 3; y++) {
+                            for (z = 0; z < 3; z++) {
+                                _[w][x][y][z][3] = true;
+                            }
+                        }   
+                    } else {
+                        nums[val] = 1;
+                    }
+                }   
+            }
         }
     }
 }
@@ -177,8 +261,22 @@ function ಠ_ಠ(x,y) {
 }
 
 function solve() {
+    for (var w = 0; w < 3; w++) {
+        for (var x = 0; x < 3; x++) {
+            for (var y = 0; y < 3; y++) {
+                for (var z = 0; z < 3; z++) {
+                    if (_[w][x][y][z][0].style.backgroundColor == "rgb(205, 155, 155)") {
+                        alert("No solution.");
+                        return;
+                    }
+                }
+            }
+        }
+    }
     initialize$$();
-    solver();
+    if (!solver()) {
+        alert("No possible solution.");
+    }
 }
 
 function solver() {
@@ -324,19 +422,15 @@ function initialize$$() {
     }
 }
 
-function printIt() {
-    var outrow, outcol, inrow, incol;
-    for (outrow = 0; outrow < 3; outrow++) {
-        for (inrow = 0; inrow < 3; inrow++) {
-            var s = "|";
-            for (outcol = 0; outcol < 3; outcol++) {
-                for (incol = 0; incol < 3; incol++) {
-                    var v = _[outrow][outcol][inrow][incol][0].value;
-                    if (v == "") v = "-";
-                    s = s + v;
+function clearAll() {
+    for (var w = 0; w < 3; w++) {
+        for (var x = 0; x < 3; x++) {
+            for (var y = 0; y < 3; y++) {
+                for (var z = 0; z < 3; z++) {
+                    _[w][x][y][z][0].value = "";
                 }
-                s = s + "|";
             }
         }
     }
+    checkAll();
 }

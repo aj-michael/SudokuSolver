@@ -22,7 +22,6 @@ body {
 
 .footer {
     position: fixed;
-    #bottom: 0px;
     height: 50px;
     width: 100%;
     margin-left: auto;
@@ -94,7 +93,7 @@ body {
     text-align: center;
 }
 
-#submit {
+#submit, #clear {
     font-family: Serif;
     width: 100px;
     height: 40px;
@@ -114,4 +113,12 @@ body {
 
 #submit:active {
     background-color: #FFA500;
+}
+
+#clear:hover {
+    background-color: #CD9B9B;
+}
+
+#clear:active {
+    background-color: red;
 }
