@@ -1,3 +1,5 @@
+UPDATE #2: The solver no longer crashes on unsolvable puzzles. It alerts the user that the problem is infeasible. Also, a clear button was added. At this point, I consider this project finished. No more updates will occur, unless I find any bugs or desire to add additional features.
+
 UPDATE: I believe the solver is now in a working state. It will warn you (with background colors) if you attempt to enter a clearly unsolvable puzzle, but if you attempt to solve it anyways it will crash your browser. If the puzzle has multiple solutions, only one will be displayed.
 
 Hey there. This is a project I'm working on that solves Sudoku puzzles.
