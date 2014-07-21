@@ -103,7 +103,12 @@ function paint() {
     }
 }
 
-function checkRow([w,x,y,z]) {
+//function checkRow([w,x,y,z]) {
+function checkRow(temp) {
+    var w = temp[0],
+        x = temp[1],
+        y = temp[2],
+        z = temp[3];
     var nums = [];
     var a, b;
     for (a = 0; a < 3; a++) {
