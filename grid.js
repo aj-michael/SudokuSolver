@@ -40,7 +40,11 @@ function clearField(e,input) {
         setTimeout(function() {checkValid(input);});
     } else if (36 < keycode && keycode < 41) {
         var w,x,y,z;
-        [w,x,y,z] = getCoordinates(input);
+        //[w,x,y,z] = getCoordinates(input);
+        w = getCoordinates(input)[0];
+        x = getCoordinates(input)[1];
+        y = getCoordinates(input)[2];
+        z = getCoordinates(input)[3];
         if (keycode == 37) {
             _[w][ಠ_ಠ(x-!z,3)][y][ಠ_ಠ(z-1,3)][0].focus();
         } else if (keycode == 38) {
