@@ -199,7 +199,11 @@ function checkAllBoxes() {
     }
 }
 
-function checkCol([w,x,y,z]) {
+function checkCol(args) {
+    var w = args[0],
+        x = args[1],
+        y = args[2],
+        z = args[3];
     var nums = []; 
     var a, b;
     for (a = 0; a < 3; a++) {
@@ -224,7 +228,11 @@ function checkCol([w,x,y,z]) {
     }
 }
 
-function checkBox([w,x,y,z]) {
+function checkBox(args) {
+    var w = args[0],
+        x = args[1],
+        y = args[2],
+        z = args[3];
     var nums = [];
     var a, b;
     for (a = 0; a < 3; a++) {
